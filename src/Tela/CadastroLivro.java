@@ -97,24 +97,24 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
                 
             System.out.println(titulo);
 
-            Livro livroNome = livroRepositorio.ProcurarLivroPorTituloEAutor(titulo, autor);
-            if (livroNome == null){
-                Livro livroBanco = livroRepositorio.ProcurarLivroPorId(idLivroAtual);
-                Livro livroAlterar = new Livro(idLivroAtual, livroBanco.getQtdAlugado(),
-                                               titulo, autor, editora, descricao, data,
-                                                edicao, serie, tipo, livroBanco.getStatus(),
-                                                livroBanco.getDataatualizacao(),
-                                                livroBanco.getDatainsercao(),
-                                                livroBanco.getObservacoes(), livroBanco.getCaminhoImg());
+            //Livro livroNome = livroRepositorio.ProcurarLivroPorTituloEAutor(titulo, autor);
+            //if (livroNome == null){
+            Livro livroBanco = livroRepositorio.ProcurarLivroPorId(idLivroAtual);
+            Livro livroAlterar = new Livro(idLivroAtual, livroBanco.getQtdAlugado(),
+                                           titulo, autor, editora, descricao, data,
+                                            edicao, serie, tipo, livroBanco.getStatus(),
+                                            livroBanco.getDataatualizacao(),
+                                            livroBanco.getDatainsercao(),
+                                            livroBanco.getObservacoes(), livroBanco.getCaminhoImg());
 
-                livroRepositorio.AlterarLivro(livroAlterar);
+            livroRepositorio.AlterarLivro(livroAlterar);
 
-                JOptionPane.showMessageDialog(null,"Livro Alterado","",JOptionPane.OK_OPTION);
-                dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"O livro '" + titulo + "' para esse autor ja esta cadastrado","",JOptionPane.ERROR_MESSAGE);
-                campoTitulo.requestFocus();
-            }
+            JOptionPane.showMessageDialog(null,"Livro Alterado","",JOptionPane.OK_OPTION);
+            dispose();
+            //}else{
+                //JOptionPane.showMessageDialog(null,"O livro '" + titulo + "' para esse autor ja esta cadastrado","",JOptionPane.ERROR_MESSAGE);
+                //campoTitulo.requestFocus();
+            //}
         }
     }
     
