@@ -1,5 +1,6 @@
 package Tela;
 
+import Modelos.PesquisaLivro;
 import Principal.ImagemFundo;
 import Principal.TelaLogin_Principal;
 import static Tela.TelaAnonimo.dPane;
@@ -9,38 +10,18 @@ import javax.swing.JOptionPane;
 public class TelaAdministrador extends javax.swing.JFrame {
 
     String janelaAtualAberta = "";
+    String idUsuarioAtual;
     
-    public TelaAdministrador() {
+    public TelaAdministrador(String idUsuario) {
+        this.idUsuarioAtual = idUsuario;
         initComponents();
-        setExtendedState(MAXIMIZED_BOTH);
-        
-        try
-        {
-            dPane.add(fundo);
-            fundo.setMaximum(true);//maximiza a tela com a imagem de fundo
-            fundo.setVisible(true);
-        }catch (Exception erro){}
-        
+        setExtendedState(MAXIMIZED_BOTH);        
     }
     
-    public void ControleJanelas(String abrirJanela){
-        if (!janelaAtualAberta.equals("")){
-            dispose();
-            janelaAtualAberta = "";
-        }
-        
-        if (abrirJanela.equals("pesquisa")){
-            AbrirFiltrosPesquisa();
-        }else if (abrirJanela.equals("novolivro")){
-            NovoLivro();
-        }
-        janelaAtualAberta = abrirJanela;
-        
-    }
     
     public void AbrirFiltrosPesquisa(){
         try{
-            FiltroPesquisaLivros filtros = new FiltroPesquisaLivros();
+            FiltroPesquisaLivros filtros = new FiltroPesquisaLivros(dPane, "administrador", idUsuarioAtual);
             dPane.add(filtros);
             filtros.setVisible(true);
 	}catch (Exception erro) {}
@@ -48,9 +29,17 @@ public class TelaAdministrador extends javax.swing.JFrame {
     
     public void NovoLivro(){
         try{
-            CadastroLivro livro = new CadastroLivro();
+            CadastroLivro livro = new CadastroLivro("novo", "");
             dPane.add(livro);
             livro.setVisible(true);
+	}catch (Exception erro) {}
+    }
+    
+    public void CarregarLivros(){
+        try{
+            ConsultarLivros livros = new ConsultarLivros(dPane, new PesquisaLivro(), "administrador", idUsuarioAtual);
+            dPane.add(livros);
+            livros.setVisible(true);
 	}catch (Exception erro) {}
     }
     
@@ -77,13 +66,11 @@ public class TelaAdministrador extends javax.swing.JFrame {
 
         dPane = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
-        campoPesquisa = new javax.swing.JTextField();
         botaoCatalogo = new javax.swing.JButton();
         botaoUsuarios = new javax.swing.JButton();
         botaoNovoLivro = new javax.swing.JButton();
         botaoAbrirFiltrosPesquisa = new javax.swing.JButton();
         botaoSair = new javax.swing.JButton();
-        botaoPesquisaRapida = new javax.swing.JButton();
         botaoNovoUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -92,13 +79,6 @@ public class TelaAdministrador extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
-            }
-        });
-
-        campoPesquisa.setText("Pesquisar");
-        campoPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoPesquisaActionPerformed(evt);
             }
         });
 
@@ -123,7 +103,7 @@ public class TelaAdministrador extends javax.swing.JFrame {
             }
         });
 
-        botaoAbrirFiltrosPesquisa.setText("jButton4");
+        botaoAbrirFiltrosPesquisa.setText("Pesquisar");
         botaoAbrirFiltrosPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoAbrirFiltrosPesquisaActionPerformed(evt);
@@ -136,8 +116,6 @@ public class TelaAdministrador extends javax.swing.JFrame {
                 botaoSairActionPerformed(evt);
             }
         });
-
-        botaoPesquisaRapida.setText("jButton1");
 
         botaoNovoUsuario.setText("Novo Usuario");
         botaoNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -153,28 +131,21 @@ public class TelaAdministrador extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(botaoPesquisaRapida, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(botaoAbrirFiltrosPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(botaoCatalogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botaoUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botaoNovoLivro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botaoSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botaoNovoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botaoNovoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(botaoAbrirFiltrosPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botaoAbrirFiltrosPesquisa)
-                    .addComponent(botaoPesquisaRapida))
+                .addComponent(botaoAbrirFiltrosPesquisa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botaoCatalogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -221,12 +192,8 @@ public class TelaAdministrador extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
-    private void campoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoPesquisaActionPerformed
-
     private void botaoCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCatalogoActionPerformed
-        // TODO add your handling code here:
+        CarregarLivros();
     }//GEN-LAST:event_botaoCatalogoActionPerformed
 
     private void botaoSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSairActionPerformed
@@ -236,11 +203,11 @@ public class TelaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoSairActionPerformed
 
     private void botaoAbrirFiltrosPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAbrirFiltrosPesquisaActionPerformed
-        ControleJanelas("pesquisa");
+        AbrirFiltrosPesquisa();
     }//GEN-LAST:event_botaoAbrirFiltrosPesquisaActionPerformed
 
     private void botaoNovoLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoNovoLivroActionPerformed
-        ControleJanelas("novolivro");
+        NovoLivro();
     }//GEN-LAST:event_botaoNovoLivroActionPerformed
 
     private void botaoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUsuariosActionPerformed
@@ -258,10 +225,8 @@ public class TelaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton botaoCatalogo;
     private javax.swing.JButton botaoNovoLivro;
     private javax.swing.JButton botaoNovoUsuario;
-    private javax.swing.JButton botaoPesquisaRapida;
     private javax.swing.JButton botaoSair;
     private javax.swing.JButton botaoUsuarios;
-    private javax.swing.JTextField campoPesquisa;
     protected static javax.swing.JDesktopPane dPane;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

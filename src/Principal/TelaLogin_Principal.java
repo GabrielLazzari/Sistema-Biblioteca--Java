@@ -17,12 +17,6 @@ public class TelaLogin_Principal extends javax.swing.JFrame {
     public TelaLogin_Principal() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
-        try
-        {
-            dPane.add(fundo);
-            fundo.setMaximum(true);
-            fundo.setVisible(true);
-        }catch (Exception erro){}
     } 
     
     private void entrar()
@@ -36,11 +30,11 @@ public class TelaLogin_Principal extends javax.swing.JFrame {
         }else{
             if (usuario.getTipo().equals("Usuario")){
                 dispose();
-                TelaUsuario menu=new TelaUsuario();
+                TelaUsuario menu=new TelaUsuario(usuario.getId());
                 menu.setVisible(true);
             }else if (usuario.getTipo().equals("Administrador")){
                 dispose();
-                TelaAdministrador menu=new TelaAdministrador();
+                TelaAdministrador menu=new TelaAdministrador(usuario.getId());
                 menu.setVisible(true);
             }
         }

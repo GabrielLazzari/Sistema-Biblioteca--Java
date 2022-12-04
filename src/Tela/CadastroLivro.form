@@ -68,10 +68,10 @@
                                       <Component id="edicaoLivro" min="-2" pref="47" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="campoEditora" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="campoTipo" alignment="0" max="32767" attributes="0"/>
                                   <Component id="campoSerie" alignment="0" max="32767" attributes="0"/>
                                   <Component id="campoData" alignment="0" max="32767" attributes="0"/>
                                   <Component id="campoEdicao" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="campoTipo" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -105,8 +105,8 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="campoTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -215,8 +215,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoEditoraActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="campoTipo">
-    </Component>
     <Component class="javax.swing.JTextField" name="campoSerie">
     </Component>
     <Component class="javax.swing.JTextField" name="campoData">
@@ -255,6 +253,22 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoAbrirArquivosActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="campoTipo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="5">
+            <StringItem index="0" value="Acao"/>
+            <StringItem index="1" value="Aventura"/>
+            <StringItem index="2" value="Comedia"/>
+            <StringItem index="3" value="Romance"/>
+            <StringItem index="4" value="Estudos"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

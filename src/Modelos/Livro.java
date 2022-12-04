@@ -18,6 +18,9 @@ public class Livro {
     String datainsercao;
     String observacoes;
     String caminhoImg;
+    String idUsuario;
+    boolean jali;
+    boolean devolvido;
     
     
     public Livro(String id, int qtdAlugado, String titulo, String autor, String editora,
@@ -41,6 +44,59 @@ public class Livro {
         this.caminhoImg = caminhoImg;
     }
 
+    public Livro(String id, int qtdAlugado, String titulo, String autor, String editora,
+            String descricao, String data_lancamento, String edicao, String serie,
+            String tipo, String status, String dataatuaizacao, String datainsercao,
+            String observacoes, String caminhoImg, String idUsuario,
+            boolean jali, boolean devolvido){
+        this.id = id;
+	this.qtdAlugado = qtdAlugado;
+	this.titulo = titulo;
+	this.autor = autor;
+	this.editora = editora;
+	this.descricao = descricao;
+	this.data_lancamento = data_lancamento;
+	this.edicao = edicao;
+	this.serie = serie;
+	this.tipo = tipo;
+	this.status = status;
+	this.dataatualizacao = dataatuaizacao;
+	this.datainsercao = datainsercao;
+	this.observacoes = observacoes;
+        this.caminhoImg = caminhoImg;
+        this.idUsuario = idUsuario;
+        this.jali = jali;
+        this.devolvido = devolvido;
+    }
+    
+    public void Livro(){
+    
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public boolean isJali() {
+        return jali;
+    }
+
+    public void setJali(boolean jali) {
+        this.jali = jali;
+    }
+
+    public boolean isDevolvido() {
+        return devolvido;
+    }
+
+    public void setDevolvido(boolean devolvido) {
+        this.devolvido = devolvido;
+    }
+    
     public String getCaminhoImg() {
         return caminhoImg;
     }

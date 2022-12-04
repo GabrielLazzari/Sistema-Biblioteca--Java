@@ -2,6 +2,7 @@
 package Tela;
 
 import Modelos.Usuario;
+import Repositorio.LivroUsuarioDAO;
 import Repositorio.UsuarioDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -10,8 +11,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class ConsultarUsuarios extends javax.swing.JInternalFrame {
 
+    LivroUsuarioDAO livroUsuarioDAO = new LivroUsuarioDAO();
 
     public ConsultarUsuarios() {
+        super("",false,true,false,false);
         this.setLocation(215,0);
         initComponents();
     }
@@ -237,8 +240,10 @@ public class ConsultarUsuarios extends javax.swing.JInternalFrame {
 	    {
                 DefaultTableModel modelo=(DefaultTableModel)tabela.getModel();
 	        UsuarioDAO clienteDAO = new UsuarioDAO();
-		boolean clienteDeletado = clienteDAO.DeletarUsuario(modelo.getValueAt(tabela.getSelectedRow(),3).toString());
-		if (clienteDeletado == true)
+                String idUsuario = modelo.getValueAt(tabela.getSelectedRow(),3).toString();
+		boolean clienteDeletado = clienteDAO.DeletarUsuario(idUsuario);
+		livroUsuarioDAO.DeletarLivroUsuarioPorIdUsuario(idUsuario);
+                if (clienteDeletado == true)
 		{
                     modelo.removeRow(tabela.getSelectedRow());
                     JOptionPane.showMessageDialog(null,"Usuario excluído com sucesso!","Excluído",JOptionPane.INFORMATION_MESSAGE);

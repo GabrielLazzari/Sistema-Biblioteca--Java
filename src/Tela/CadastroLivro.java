@@ -1,27 +1,121 @@
 
 package Tela;
 
+import Modelos.Livro;
 import Repositorio.LivroDAO;
 import static Tela.TelaAdministrador.dPane;
+import java.util.UUID;
+import javax.swing.JOptionPane;
 
 public class CadastroLivro extends javax.swing.JInternalFrame {
 
     LivroDAO livroRepositorio = new LivroDAO();
     
-    public CadastroLivro() {
+    public CadastroLivro(String operacao, String idLivro) {
+        super("",false,true,false,false);
         this.setLocation(215,0);
         initComponents();
+        
+        this.operacao = operacao;
+        this.idLivroAtual = idLivro;
+        
+        System.out.println(operacao);
+        
+        if (operacao == "alterar"){
+            Livro livroBanco = livroRepositorio.ProcurarLivroPorId(idLivroAtual);
+
+            if (livroBanco != null){          
+                campoTitulo.setText(livroBanco.getTitulo());
+                campoAutor.setText(livroBanco.getAutor());
+                campoEditora.setText(livroBanco.getEditora());
+                campoTipo.setToolTipText(livroBanco.getTipo());
+                campoSerie.setText(livroBanco.getSerie());
+                campoData.setText(livroBanco.getData_lancamento());
+                campoEdicao.setText(livroBanco.getEdicao());
+                campoDescricao.setText(livroBanco.getDescricao());
+            }else{
+                JOptionPane.showMessageDialog(null,"Ocorreu um erro, ao foi possivel carregar os dados","Erro de Conexão",JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     public void NovoLivro(){
         String titulo = campoTitulo.getText();
         String autor = campoAutor.getText();
         String editora = campoEditora.getText();
-        String tipo = campoTipo.getText();
+        String tipo = (String) campoTipo.getSelectedItem();
         String serie = campoSerie.getText();
         String data = campoData.getText();
         String edicao = campoEdicao.getText();
         String descricao = campoDescricao.getText();
+        
+        if (titulo.equals("")) {
+            JOptionPane.showMessageDialog(null,"Digite o titulo do livro!","",JOptionPane.ERROR_MESSAGE);
+            campoTitulo.requestFocus();
+	}else if (autor.equals("")) {
+            JOptionPane.showMessageDialog(null,"Digite o nome do autor!","",JOptionPane.ERROR_MESSAGE);
+            campoAutor.requestFocus();
+	}else{
+            Livro livroBanco = livroRepositorio.ProcurarLivroPorTituloEAutor(titulo, autor);
+            if (livroBanco != null){
+                JOptionPane.showMessageDialog(null,"O livro '" + titulo + "' para esse autor ja esta cadastrado","",JOptionPane.ERROR_MESSAGE);
+                campoTitulo.requestFocus();
+            }else{
+                try{
+                    Livro livro = new Livro(UUID.randomUUID().toString(), 0, titulo,
+                                    autor, editora, descricao, data, edicao, serie,
+                                    tipo, "Novo", "", "", "", "");
+                    
+                    livroRepositorio.CadastrarLivro(livro);
+                    
+                    JOptionPane.showMessageDialog(null,"Livro Cadastrado","",JOptionPane.OK_OPTION);
+                    dispose();
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(null,"Não foi possivel cadastrar o livro, tente novamente","Erro de Conexão",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+    
+    public void AlterarLivro(){
+        String titulo = campoTitulo.getText();
+        String autor = campoAutor.getText();
+        String editora = campoEditora.getText();
+        String tipo = (String) campoTipo.getSelectedItem();
+        String serie = campoSerie.getText();
+        String data = campoData.getText();
+        String edicao = campoEdicao.getText();
+        String descricao = campoDescricao.getText();
+        
+        if (titulo.equals("")) {
+            JOptionPane.showMessageDialog(null,"Digite o titulo do livro!","",JOptionPane.ERROR_MESSAGE);
+            campoTitulo.requestFocus();
+        }else if (autor.equals("")) {
+            JOptionPane.showMessageDialog(null,"Digite o nome do autor!","",JOptionPane.ERROR_MESSAGE);
+            campoAutor.requestFocus();
+        }else{
+                
+            System.out.println(titulo);
+
+            Livro livroNome = livroRepositorio.ProcurarLivroPorTituloEAutor(titulo, autor);
+            if (livroNome == null){
+                Livro livroBanco = livroRepositorio.ProcurarLivroPorId(idLivroAtual);
+                Livro livroAlterar = new Livro(idLivroAtual, livroBanco.getQtdAlugado(),
+                                               titulo, autor, editora, descricao, data,
+                                                edicao, serie, tipo, livroBanco.getStatus(),
+                                                livroBanco.getDataatualizacao(),
+                                                livroBanco.getDatainsercao(),
+                                                livroBanco.getObservacoes(), livroBanco.getCaminhoImg());
+
+                livroRepositorio.AlterarLivro(livroAlterar);
+
+                JOptionPane.showMessageDialog(null,"Livro Alterado","",JOptionPane.OK_OPTION);
+                dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"O livro '" + titulo + "' para esse autor ja esta cadastrado","",JOptionPane.ERROR_MESSAGE);
+                campoTitulo.requestFocus();
+            }
+        }
     }
     
     public void CarregarImagem(){
@@ -50,7 +144,6 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         campoAutor = new javax.swing.JTextField();
         campoEditora = new javax.swing.JTextField();
-        campoTipo = new javax.swing.JTextField();
         campoSerie = new javax.swing.JTextField();
         campoData = new javax.swing.JTextField();
         campoEdicao = new javax.swing.JTextField();
@@ -60,6 +153,7 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         botaoAbrirArquivos = new javax.swing.JButton();
+        campoTipo = new javax.swing.JComboBox<>();
 
         edicaoLivro.setText("Ok");
         edicaoLivro.addActionListener(new java.awt.event.ActionListener() {
@@ -124,6 +218,8 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
             }
         });
 
+        campoTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acao", "Aventura", "Comedia", "Romance", "Estudos" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,10 +260,10 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(edicaoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(campoEditora)
-                                    .addComponent(campoTipo)
                                     .addComponent(campoSerie)
                                     .addComponent(campoData)
-                                    .addComponent(campoEdicao))
+                                    .addComponent(campoEdicao)
+                                    .addComponent(campoTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(16, 16, 16))
         );
@@ -191,8 +287,8 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(campoTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(campoTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +319,20 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void edicaoLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edicaoLivroActionPerformed
-        NovoLivro();
+        if (operacao == "alterar"){
+
+            AlterarLivro();
+        }else{
+            titulo="";
+            autor="";
+            editora="";
+            tipo="";
+            serie="";
+            data="";
+            edicao="";
+            descricao="";
+            NovoLivro();
+        }
     }//GEN-LAST:event_edicaoLivroActionPerformed
 
     private void cancelarEdicaoLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarEdicaoLivroActionPerformed
@@ -242,6 +351,18 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
         CarregarImagem();
     }//GEN-LAST:event_botaoAbrirArquivosActionPerformed
 
+    
+    public static String operacao="";  //alterar ou cadastrar
+    protected static String titulo="";
+    protected static String autor="";
+    protected static String editora="";
+    protected static String tipo="";
+    protected static String serie="";
+    protected static String data="";
+    protected static String edicao="";
+    protected static String descricao="";
+    protected static String idLivroAtual="";
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoAbrirArquivos;
@@ -251,7 +372,7 @@ public class CadastroLivro extends javax.swing.JInternalFrame {
     private javax.swing.JTextField campoEdicao;
     private javax.swing.JTextField campoEditora;
     private javax.swing.JTextField campoSerie;
-    private javax.swing.JTextField campoTipo;
+    private javax.swing.JComboBox<String> campoTipo;
     private javax.swing.JTextField campoTitulo;
     private javax.swing.JButton cancelarEdicaoLivro;
     private javax.swing.JButton edicaoLivro;

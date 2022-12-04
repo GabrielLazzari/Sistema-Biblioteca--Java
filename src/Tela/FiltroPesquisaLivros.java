@@ -1,32 +1,54 @@
 
 package Tela;
 
+import Modelos.PesquisaLivro;
+
 
 public class FiltroPesquisaLivros extends javax.swing.JInternalFrame {
-
-    public FiltroPesquisaLivros() {
-        //super("Usuario",false,true,false,false);
+    
+    protected static javax.swing.JDesktopPane dPane;
+    String janelaAtual = "";
+    String idUsuario = "";
+    
+    public FiltroPesquisaLivros(javax.swing.JDesktopPane dPane, String janela, String idUsuario) {
+        super("",false,true,false,false);
         this.setLocation(215,0);
         initComponents();
+        this.dPane = dPane;
+        this.janelaAtual = janela;
+        this.idUsuario = idUsuario;
     }
 
     public void PesquisarLivros(){
-        boolean todos = radioTodos.isSelected();
-        boolean acao = radioAcao.isSelected();
-        boolean aventura = radioAventura.isSelected();
-        boolean comedia = radioComedia.isSelected();
-        boolean romance = radioRomance.isSelected();
-        boolean estudos = radioEstudos.isSelected();
         
-        boolean emAlta = radioEmAlta.isSelected();
-        boolean novos = radioNovos.isSelected();
+        PesquisaLivro pesquisaLivro = new PesquisaLivro();
         
-        String titulo = campoTitulo.getText();
-        String autor = campoAutor.getText();
-        String editor = campoEditora.getText();
-        String data = campoData.getText();
-        String edicao = campoEdicao.getText();
+        pesquisaLivro.setTodos(radioTodos.isSelected());
+        pesquisaLivro.setAcao(radioAcao.isSelected());
+        pesquisaLivro.setAventura(radioAventura.isSelected());
+        pesquisaLivro.setComedia(radioComedia.isSelected());
+        pesquisaLivro.setRomance(radioRomance.isSelected());
+        pesquisaLivro.setEstudos(radioEstudos.isSelected());
+        
+        pesquisaLivro.setEmAlta(radioEmAlta.isSelected());
+        pesquisaLivro.setNovos(radioNovos.isSelected());
+        
+        pesquisaLivro.setTitulo(campoTitulo.getText());
+        pesquisaLivro.setAutor(campoAutor.getText());
+        pesquisaLivro.setEditora(campoEditora.getText());
+        pesquisaLivro.setData_lancamento(campoData.getText());
+        pesquisaLivro.setEdicao(campoEdicao.getText());
+        
+        FecharFiltrosPesquisaLivro();
+        
+        ConsultarLivros livros = new ConsultarLivros(dPane, pesquisaLivro, janelaAtual, idUsuario);
+        dPane.add(livros);
+        livros.setVisible(true);
        
+    }
+    
+    public void FecharFiltrosPesquisaLivro(){
+        dispose();
     }
     
     @SuppressWarnings("unchecked")
@@ -55,8 +77,6 @@ public class FiltroPesquisaLivros extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         cancelarPesquisaLivro.setText("Cancelar");
         cancelarPesquisaLivro.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +258,7 @@ public class FiltroPesquisaLivros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoAplicarFiltroPesquisActionPerformed
 
     private void cancelarPesquisaLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarPesquisaLivroActionPerformed
-        dispose();
+        FecharFiltrosPesquisaLivro();
     }//GEN-LAST:event_cancelarPesquisaLivroActionPerformed
 
 

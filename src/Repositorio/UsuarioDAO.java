@@ -96,7 +96,7 @@ public class UsuarioDAO
         return usuarioEncontrado;
     }
     
-        public Usuario ProcurarUsuarioPorId(String idUsuario){
+    public Usuario ProcurarUsuarioPorId(String idUsuario){
         Usuario usuarioEncontrado = null;     
         try {
             Connection conexao = getConnection();

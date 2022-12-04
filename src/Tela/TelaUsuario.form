@@ -66,21 +66,17 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="campoPesquisa" min="-2" pref="125" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="botaoPesquisaRapida" min="-2" pref="24" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="botaoAbrirFiltrosPesquisa" min="-2" pref="23" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
                           <Component id="botaoCatalogo" alignment="0" max="32767" attributes="0"/>
                           <Component id="botaoAlugados" alignment="0" max="32767" attributes="0"/>
                           <Component id="botaoLerNovamente" alignment="0" max="32767" attributes="0"/>
                           <Component id="botaoSair" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="botaoAbrirFiltrosPesquisa" min="-2" pref="172" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -90,11 +86,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="campoPesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="botaoAbrirFiltrosPesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="botaoPesquisaRapida" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="botaoAbrirFiltrosPesquisa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="botaoCatalogo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -109,14 +101,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="campoPesquisa">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Pesuisar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoPesquisaActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="botaoCatalogo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Catalogo"/>
@@ -129,15 +113,21 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alugados"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoAlugadosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoLerNovamente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ler Novamente"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoLerNovamenteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoAbrirFiltrosPesquisa">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton4"/>
+                <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoAbrirFiltrosPesquisaActionPerformed"/>
@@ -150,11 +140,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoSairActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="botaoPesquisaRapida">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

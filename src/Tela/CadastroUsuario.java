@@ -13,9 +13,8 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
     
     public CadastroUsuario() {
         super("Usuario",false,true,false,false);
+        this.setLocation(210,0);
         initComponents();
-        
-        System.out.println("ois " + operacao);
         
         if (operacao.equals("alterar"))
 	{
@@ -219,7 +218,7 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_cancelarEdicaoUsuarioActionPerformed
 
-    public static String operacao="";
+    public static String operacao="";  //alterar ou cadastrar
     protected static String idUsuario="";
     protected static String nome="";
     protected static String tipo="";
